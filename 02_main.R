@@ -16,7 +16,7 @@ sp500_daily_return <- sp500_daily_price %>%
   na.omit() %>% 
   spread(symbol, return) %>% 
   mutate(
-    month = date %>% as.yearmon() %>% as.Date(frac=1)
+    month = date %>% as.yearmon() %>% as.Date(frac = 1)
   ) %>% 
   select(month, date, everything())
 
@@ -47,22 +47,22 @@ sp500_average_monthly_correlation <- sp500_monthly_correlation_matrix %>%
 #== ETF volume $
 sp500_etf_monthly_dollar_volume <- sp500_etf_daily_price %>% 
   mutate(
-    volume_dollar = volume * adjusted,
+    dollar_volume = volume * adjusted,
     month = date %>% as.yearmon() %>% as.Date(frac=1)
   ) %>% 
   group_by(month) %>% 
-  summarise(volume_dollar = sum(volume_dollar))
+  summarise(dollar_volume = sum(dollar_volume))
 
 
 #== regression
 df <- sp500_average_monthly_correlation %>% 
   left_join(sp500_etf_monthly_dollar_volume, by = "month")
 
-lm(mean_correlation~volume_dollar, df) %>% summary()
+lm(mean_correlation~dollar_volume, df) %>% summary()
 
 df %>% 
-  ggplot(aes(x = volume_dollar, y = mean_correlation)) +
-  geom_point()+
+  ggplot(aes(x = dollar_volume, y = mean_correlation)) +
+  geom_point() +
   geom_smooth(method = 'lm', formula = y~x)
 
-cor(df$mean_correlation,df$volume_dollar)
+cor(df$mean_correlation, df$dollar_volume)
