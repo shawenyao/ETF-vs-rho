@@ -6,17 +6,19 @@ load("./Input/data.RData")
 
 #=== pairwise SP500 constituents return correlations
 sp500_daily_return <- sp500_daily_price %>% 
-  select(date, symbol, adjusted) %>% 
+  select(date, symbol, adjusted, volume) %>% 
   # delete duplicate rows
   distinct() %>% 
   # delete missing rows
   na.omit() %>% 
+  # delete 0 volume prices
+  filter(volume >0) %>% 
   group_by(symbol) %>% 
   # daily return
   mutate(
     return = adjusted / lag(adjusted) - 1
   ) %>% 
-  select(-adjusted) %>% 
+  select(-volume, -adjusted) %>% 
   # delete the the missing value in the first row due to using lag()
   na.omit() %>% 
   spread(symbol, return) %>% 
