@@ -9,10 +9,15 @@ sp500_daily_return <- sp500_daily_price %>%
   select(date, symbol, adjusted) %>% 
   # delete duplicate rows
   distinct() %>% 
+  # delete missing rows
+  na.omit() %>% 
   group_by(symbol) %>% 
   # daily return
-  mutate(return = adjusted / lag(adjusted) - 1) %>% 
+  mutate(
+    return = adjusted / lag(adjusted) - 1
+  ) %>% 
   select(-adjusted) %>% 
+  # delete the the missing value in the first row due to using lag()
   na.omit() %>% 
   spread(symbol, return) %>% 
   mutate(
