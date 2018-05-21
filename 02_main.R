@@ -27,16 +27,17 @@ sp500_daily_return <- sp500_daily_price %>%
   ) %>% 
   select(month, date, everything())
 
-sp500_monthly_correlation_matrix <- lapply(
-  split(sp500_daily_return, sp500_daily_return$month),
-  function(sp500_daily_return_for_a_month){
-    print(sp500_daily_return_for_a_month %>% nrow())
-    
-    sp500_daily_return_for_a_month %>% 
-      select(-month, -date) %>% 
-      cor()
-  }
-)
+sp500_monthly_correlation_matrix <- sp500_daily_return %>%
+  split(.$month) %>%
+  lapply(
+    function(sp500_daily_return_for_a_month){
+      print(sp500_daily_return_for_a_month %>% nrow())
+
+      sp500_daily_return_for_a_month %>% 
+        select(-month, -date) %>% 
+        cor()
+    }
+  )
 
 sp500_average_monthly_correlation <- sp500_monthly_correlation_matrix %>% 
   lapply(
