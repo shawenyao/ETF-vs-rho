@@ -4,7 +4,7 @@ setwd("C:/Users/Wenyao/Desktop/R/ETF-vs-rho")
 
 load("./Input/data.RData")
 
-#=== pairwise SP500 constituents return correlations
+#== pairwise SP500 constituents return correlations
 sp500_daily_return <- sp500_daily_price %>% 
   select(date, symbol, adjusted, volume) %>% 
   # delete duplicate rows
