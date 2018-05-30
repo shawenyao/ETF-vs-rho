@@ -1,4 +1,5 @@
 library(tidyquant)
+library(ggcorrplot)
 
 setwd("C:/Users/Wenyao/Desktop/R/ETF-vs-rho")
 
@@ -68,9 +69,5 @@ df <- sp500_average_monthly_correlation %>%
 
 lm(mean_correlation~dollar_volume, df) %>% summary()
 
-df %>% 
-  ggplot(aes(x = dollar_volume, y = mean_correlation)) +
-  geom_point() +
-  geom_smooth(method = 'lm', formula = y~x)
 
 cor(df$mean_correlation, df$dollar_volume)

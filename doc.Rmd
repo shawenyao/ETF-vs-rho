@@ -1,0 +1,47 @@
+---
+title: "ETF vs Rho"
+output: html_document
+author: Wenyao Sha
+date: "`r format(Sys.time(), '%Y-%m-%d')`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+setwd("C:/Users/Wenyao/Desktop/R/ETF-vs-rho")
+source("./02_main.R")
+source("./03_by_sector.R")
+```
+
+<br><br>
+
+## ETF Volume
+```{r echo=FALSE}
+sp500_etf_monthly_dollar_volume %>% 
+  ggplot(aes(x = month, y = dollar_volume)) +
+  geom_point() +
+  geom_line()
+```
+
+## Sector-wise Correlations
+```{r echo=FALSE, fig.show='animate'}
+for(i in seq_along(sp500_sector_monthly_correlation_matrix)){
+  ggcorrplot(
+    sp500_sector_monthly_correlation_matrix[[i]],
+    show.legend = FALSE,
+    title = sp500_sector_daily_return$month %>% unique() %>% as.yearmon() %>% as.character() %>% `[`(i)
+  ) %>% 
+    print()
+}
+```
+
+## Is there a relationship?
+```{r echo=FALSE}
+df %>% 
+  ggplot(aes(x = dollar_volume, y = mean_correlation)) +
+  geom_point() +
+  geom_smooth(method = 'lm', formula = y~x)
+
+```
+
+## The Effect of Market Cap
