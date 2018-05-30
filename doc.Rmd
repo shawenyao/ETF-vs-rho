@@ -24,15 +24,14 @@ sp500_etf_monthly_dollar_volume %>%
 ```
 
 ## Sector-wise Correlations
-```{r echo=FALSE, fig.show='animate'}
-for(i in seq_along(sp500_sector_monthly_correlation_matrix)){
-  ggcorrplot(
-    sp500_sector_monthly_correlation_matrix[[i]],
-    show.legend = FALSE,
-    title = sp500_sector_daily_return$month %>% unique() %>% as.yearmon() %>% as.character() %>% `[`(i)
-  ) %>% 
-    print()
-}
+```{r echo=FALSE, fig.width=9, fig.height=9}
+sector_corr_by_month %>% 
+  ggplot(aes(x = month, y = correlation)) +
+  geom_line() + 
+  facet_grid(sector ~ sector2) +
+  theme(
+    axis.text.x = element_text(angle = 90)
+  )
 ```
 
 ## Is there a relationship?

@@ -37,3 +37,21 @@ sp500_sector_monthly_correlation_matrix <- sp500_sector_daily_return %>%
         cor()
     }
   )
+
+
+
+sector_corr_by_month <- lapply(
+  sp500_sector_monthly_correlation_matrix,
+  function(corr){
+    corr %>% 
+      as.data.frame() %>% 
+      mutate(sector = colnames(.)) %>% 
+      gather(sector2, correlation, -sector)
+  }
+) %>% 
+  bind_rows(.id="month") %>% 
+  mutate(
+    month = month %>% as.Date()
+  )
+
+
