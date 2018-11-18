@@ -13,7 +13,7 @@ sp500_daily_return <- sp500_daily_price %>%
   # delete missing rows
   na.omit() %>% 
   # delete 0 volume prices
-  filter(volume >0) %>% 
+  filter(volume > 0) %>% 
   group_by(symbol) %>% 
   # daily return
   mutate(
@@ -53,7 +53,7 @@ sp500_average_monthly_correlation <- sp500_monthly_correlation_matrix %>%
   mutate(month = month %>% as.Date())
 
 
-#== ETF volume $
+#== ETF $ volume
 sp500_etf_monthly_dollar_volume <- sp500_etf_daily_price %>% 
   mutate(
     dollar_volume = volume * adjusted,

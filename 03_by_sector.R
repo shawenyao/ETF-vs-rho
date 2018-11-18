@@ -1,4 +1,9 @@
-#== sector-wise SP500 constituents return correlations
+source("functions/functions_plot_correlation_matrix.R")
+source("functions/functions_save_jpg.R")
+source("functions/functions_save_png.R")
+source("functions/functions_save_svg.R")
+
+#==== sector-wise SP500 constituents return correlations ====
 sp500_sector_daily_return <- sp500_daily_price %>% 
   select(date, symbol, weight, sector, adjusted, volume) %>% 
   # delete duplicate rows
@@ -38,8 +43,6 @@ sp500_sector_monthly_correlation_matrix <- sp500_sector_daily_return %>%
     }
   )
 
-
-
 sector_corr_by_month <- lapply(
   sp500_sector_monthly_correlation_matrix,
   function(corr){
@@ -54,4 +57,23 @@ sector_corr_by_month <- lapply(
     month = month %>% as.Date()
   )
 
-
+#==== plot ====
+for(i in seq_along(sp500_sector_monthly_correlation_matrix)){
+  
+  month <- sp500_sector_daily_return$month %>% 
+    unique() %>% 
+    as.yearmon() %>% 
+    nth(i)
+  
+  print(month)
+  
+  corr_plot <- plot_correlation_matirx(
+    correlation_matrix = sp500_sector_monthly_correlation_matrix[[i]],
+    title = month %>% as.character()
+  )
+  
+  save_jpg(
+    corr_plot, print_plot = FALSE, width = 600, height = 600,
+    file_name = paste0("Output/sector_", format(month, "%Y%m"), ".jpg")
+  )
+}
