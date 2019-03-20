@@ -4,8 +4,8 @@ setwd("C:/Users/Wenyao/Desktop/R/ETF-vs-rho")
 source("functions/functions_efficient_frontier.R", echo=TRUE)
 
 rf <- 0.01
-miu <- c(0.1, 0.15, 0.2)
-sigma <- c(0.1, 0.2, 0.3)
+miu <- c(0.05, 0.15, 0.25)
+sigma <- c(0.25, 0.35, 0.50)
 rho12 <- 0.5
 rho23 <- 0.7
 rho13 <- 0.2

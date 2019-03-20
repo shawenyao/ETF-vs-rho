@@ -1,3 +1,26 @@
+#' find the efficient frontier
+#' by scanning over portfolios over different weight combinations
+#' 
+#' @param miu a vector of expected return
+#' @param sigma a vector of volatility
+#' @param rho a square matrix of correlation
+#' 
+#' @return a data.frame of coordinates along the risk frontier
+#' 
+calcualte_efficient_frontier <- function(moi, sigma, rho){
+  
+  step <- 0.05
+  # scan over the entire spectrum of single-asset weight
+  weight_vector <- seq(-5, 5, step)
+  # all combination of asset weights
+  weights_vector <- expand.grid(weight_vector, weight_vector, weight_vector)
+  
+  
+  
+  
+}
+
+
 #' find the weights of the tangent portfolio
 #' 
 #' @param rf risk-free rate
