@@ -12,7 +12,7 @@ calculate_return <- function(weight, miu){
 }
 
 
-#' find the weights of the tangency portfolio
+#' find the volatility of the portfolio
 #' 
 #' @param weight a vector of asset weights
 #' @param sigma a vector of volatility
@@ -25,7 +25,7 @@ calculate_volatility <- function(weight, sigma, rho){
   # the variance-covariance matrix
   big_sigma <- diag(sigma) %*% rho %*% diag(sigma)
   
-  # sigma = sqrt(t(weight) %*% big_sigma %*% weight)
+  # volatility = sqrt(t(weight) %*% big_sigma %*% weight)
   as.numeric(sqrt(matrix(weight, nrow = 1) %*% big_sigma %*% matrix(weight, ncol = 1)))
 }
 
