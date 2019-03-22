@@ -8,7 +8,7 @@
 calculate_return <- function(weight, miu){
   
   # return = sum(weight_i * return_i)
-  sum(miu * weight)
+  sum(weight * miu)
 }
 
 
