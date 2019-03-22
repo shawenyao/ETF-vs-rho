@@ -19,6 +19,7 @@ rho <- matrix(
   byrow = TRUE
 )
 atomic_assets <- tibble(volatility = sigma, return = miu)
+risk_free <- tibble(volatility = 0, return = rf)
 
 
 #==== global minimum variance portfolio ====
@@ -32,8 +33,8 @@ tangency_portfolio <- calculate_return_volatility(list(weight_tangency), miu, si
 
 
 #==== efficient frontier ====
-efficient_frontier_weights <- calculate_efficient_frontier(miu, sigma, rho, min_return = 0.01, max_return = 0.25, step = 0.005)
-efficient_frontier <- calculate_return_volatility(efficient_frontier_weights, miu, sigma, rho)
+weights_efficient_frontier <- calculate_efficient_frontier(miu, sigma, rho, min_return = 0.01, max_return = 0.25, step = 0.005)
+efficient_frontier <- calculate_return_volatility(weights_efficient_frontier, miu, sigma, rho)
 
 
 #==== plot ====
@@ -49,6 +50,9 @@ plot1 <- ggplot(efficient_frontier, aes(x = volatility, y = return)) +
   # the tangency portfolio
   geom_point(data = tangency_portfolio, color = "coral3", size = 5) +
   geom_point(data = tangency_portfolio, color = "white", size = 2) +
+  # the risk-free rate
+  geom_point(data = risk_free, color = "chocolate1", size = 5) +
+  geom_point(data = risk_free, color = "white", size = 2) +
   xlim(0, max(efficient_frontier$volatility)) +
   theme_minimal() +
   theme(
