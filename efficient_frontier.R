@@ -1,4 +1,5 @@
 suppressWarnings(library(tidyverse))
+suppressWarnings(library(beepr))
 
 setwd("C:/Users/Wenyao/Desktop/R/ETF-vs-rho")
 source("functions/functions_efficient_frontier.R", echo = FALSE)
@@ -33,14 +34,25 @@ tangency_portfolio <- calculate_return_volatility(list(weight_tangency), miu, si
 
 
 #==== efficient frontier ====
-weights_efficient_frontier <- calculate_efficient_frontier(miu, sigma, rho, min_return = 0.01, max_return = 0.25, step = 0.005)
+weights_efficient_frontier <- calculate_efficient_frontier(miu, sigma, rho, min_return = 0.001, max_return = 0.25, step = 0.005)
 efficient_frontier <- calculate_return_volatility(weights_efficient_frontier, miu, sigma, rho)
+
+
+#==== tangency line ====
+tangency_line <- tibble(
+  volatility = seq(from = 0, to = 0.365, by = 0.01)
+) %>% 
+  mutate(
+    return = (tangency_portfolio$return - rf) / tangency_portfolio$volatility * volatility + rf
+  )
 
 
 #==== plot ====
 plot1 <- ggplot(efficient_frontier, aes(x = volatility, y = return)) +
   # the efficient frontier
   geom_path(size = 2, linejoin = "round", lineend = "round", color = "gray66") +
+  # the tangency line
+  geom_path(data = tangency_line, linetype = "dashed", size = 1.5, lineend = "round", color = "gray85") +
   # the atomic assets
   geom_point(data = atomic_assets, color = "dodgerblue3", size = 5) +
   geom_point(data = atomic_assets, color = "white", size = 2) +
@@ -64,5 +76,5 @@ plot1 <- ggplot(efficient_frontier, aes(x = volatility, y = return)) +
 
 save_svg(plot = plot1, file_name = "output/efficient_frontier1.svg", width = 5, height = 3)
 
-
-
+# play sound when finished
+beep(sound = 2)
