@@ -34,8 +34,8 @@ event_study <- full_table %>%
   ) %>% 
   mutate(
     t = round((date_yearmon - t0_yearmon) * 12),
-    prior_or_post = if_else(t <= 0, "T <= 0", "T > 0") %>% 
-      factor(level = c("T > 0", "T <= 0")),
+    prior_or_post = if_else(t <= 0, "Before", "After") %>% 
+      factor(level = c("After", "Before")),
     t_text = t %>% 
       factor(
         level = seq(from = 12, to = -12, by = -1)
@@ -64,7 +64,7 @@ plot1_monthly_rho <- event_study_summary %>%
     axis.title.x = element_text(margin = margin(t = 15, r = 0, b = 0, l = 0)),
     axis.title.y = element_text(margin = margin(t = 0, r = 15, b = 0, l = 0))
   ) +
-  labs(x = "Months since Inclusion in Index", y = "rho")
+  labs(x = "Months since Inclusion in Index", y = "Average Correlation")
 
 plot2_monthly_rho_distribution <- event_study %>% 
   ggplot(aes(x = rho, y = t_text, fill = factor(..quantile..))) +
@@ -85,7 +85,7 @@ plot2_monthly_rho_distribution <- event_study %>%
     axis.title.x = element_text(margin = margin(t = 15, r = 0, b = 0, l = 0)),
     axis.title.y = element_text(margin = margin(t = 0, r = 15, b = 0, l = 0))
   ) +
-  labs(x = "rho", y = "Months since Inclusion in Index")
+  labs(x = "Correlation", y = "Months since Inclusion in Index")
 
 plot3_pre_post_distribution <- event_study %>% 
   ggplot(aes(x = rho, y = prior_or_post, fill = factor(..quantile..))) +
@@ -104,11 +104,18 @@ plot3_pre_post_distribution <- event_study %>%
     legend.position = "none",
     text = element_text(size = 15),
     axis.title.x = element_text(margin = margin(t = 15, r = 0, b = 0, l = 0)),
-    axis.title.y = element_blank(),
+    axis.title.y = element_blank()
   ) +
-  labs(x = "rho", y = "")
+  labs(x = "Correlation", y = "")
 
+
+#==== output ====
 save_svg(plot = plot1_monthly_rho, file_name = "output/event_study1_monthly_rho.svg", width = 5, height = 3)
 save_svg(plot = plot2_monthly_rho_distribution, file_name = "output/event_study2_monthly_rho_distribution.svg", width = 5, height = 8)
 save_svg(plot = plot3_pre_post_distribution, file_name = "output/event_study3_plot3_pre_post_distribution.svg", width = 5, height = 3)
+
+warnings()
+
+# play sound when finished
+beep(sound = 2)
 
