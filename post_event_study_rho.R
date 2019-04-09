@@ -44,6 +44,20 @@ event_study <- full_table %>%
 
 
 #==== summarise ====
+paired_t_test <- event_study %>% 
+  group_by(symbol, prior_or_post) %>% 
+  summarise(
+    rho = mean(rho, na.rm = TRUE)
+  ) %>% 
+  spread(prior_or_post, rho) %>% 
+  na.omit()
+t.test(
+  paired_t_test$Before, 
+  paired_t_test$After, 
+  paired = TRUE, 
+  alternative = "less"
+)
+
 event_study_summary <- event_study %>% 
   group_by(t) %>% 
   summarise(
@@ -111,11 +125,10 @@ plot3_pre_post_distribution <- event_study %>%
 
 #==== output ====
 save_svg(plot = plot1_monthly_rho, file_name = "output/event_study1_monthly_rho.svg", width = 5, height = 3)
-save_svg(plot = plot2_monthly_rho_distribution, file_name = "output/event_study2_monthly_rho_distribution.svg", width = 5, height = 8)
+save_svg(plot = plot2_monthly_rho_distribution, file_name = "output/event_study2_monthly_rho_distribution.svg", width = 5, height = 9)
 save_svg(plot = plot3_pre_post_distribution, file_name = "output/event_study3_plot3_pre_post_distribution.svg", width = 5, height = 3)
 
 warnings()
 
 # play sound when finished
 beep(sound = 2)
-
