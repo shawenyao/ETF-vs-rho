@@ -45,7 +45,9 @@ plot2 <- plot_efficient_frontier(
   rho = rho_equilibrium,
   risk_free_asset = risk_free_asset,
   x_range = c(0, 0.44),
-  y_range = c(0, 0.25)
+  y_range = c(0, 0.25),
+  show_tangency_line = FALSE,
+  show_tangency_portfolio = FALSE
 )
 
 plot3 <- plot_efficient_frontier(
@@ -53,7 +55,9 @@ plot3 <- plot_efficient_frontier(
   rho = rho_equilibrium,
   risk_free_asset = risk_free_asset,
   x_range = c(0, 0.44),
-  y_range = c(0, 0.25)
+  y_range = c(0, 0.25),
+  show_tangency_line = FALSE,
+  show_tangency_portfolio = FALSE
 )
 
 

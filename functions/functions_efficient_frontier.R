@@ -154,6 +154,8 @@ calculate_efficient_frontier <- function(miu, sigma, rho, min_return, max_return
 #' @param risk_free_asset a data.frame of the return and volatility (0) of risk-free asset
 #' @param x_range the range of the x axis
 #' @param y_range the range of the y axis
+#' @param show_tangency_line a boolean switch to add tangency line to the plot
+#' @param show_tangency_portfolio a boolean switch to add tangency portfolio to the plot
 #'
 #' @return a ggplot2 object
 #'
@@ -162,7 +164,9 @@ plot_efficient_frontier <- function(
   rho, 
   risk_free_asset,
   x_range,
-  y_range
+  y_range,
+  show_tangency_line = TRUE,
+  show_tangency_portfolio = TRUE
 ){
   
   # global minimum variance portfolio
@@ -219,20 +223,15 @@ plot_efficient_frontier <- function(
     )
   
   # return the plot
-  ggplot(efficient_frontier, aes(x = volatility, y = return)) +
+  output <- ggplot(efficient_frontier, aes(x = volatility, y = return)) +
     # the efficient frontier
     geom_path(size = 2, linejoin = "round", lineend = "round", color = "gray66") +
-    # the tangency line
-    geom_path(data = tangency_line, linetype = "dashed", size = 1.5, lineend = "round", color = "gray85") +
     # the atomic assets
     geom_point(data = risky_assets, color = "dodgerblue3", size = 5) +
     geom_point(data = risky_assets, color = "white", size = 2) +
     # the global minimum variance portfolio
     geom_point(data = minimum_portfolio, color = "chartreuse4", size = 5) +
     geom_point(data = minimum_portfolio, color = "white", size = 2) +
-    # the tangency portfolio
-    geom_point(data = tangency_portfolio, color = "coral3", size = 5) +
-    geom_point(data = tangency_portfolio, color = "white", size = 2) +
     # the risk-free rate
     geom_point(data = risk_free_asset, color = "chocolate1", size = 5) +
     geom_point(data = risk_free_asset, color = "white", size = 2) +
@@ -245,4 +244,25 @@ plot_efficient_frontier <- function(
       axis.title.y = element_text(margin = margin(t = 0, r = 15, b = 0, l = 0))
     ) +
     labs(x = "Volatility", y = "Return")
+  
+  if(isTRUE(show_tangency_line)){
+    output <- output + 
+      # the tangency line
+      geom_path(
+        data = tangency_line, 
+        linetype = "dashed", 
+        size = 1.5, 
+        lineend = "round", 
+        color = "gray85"
+      )
+  }
+  
+  if(isTRUE(show_tangency_portfolio)){
+    output <- output + 
+      # the tangency portfolio
+      geom_point(data = tangency_portfolio, color = "coral3", size = 5) +
+      geom_point(data = tangency_portfolio, color = "white", size = 2)
+  }
+  
+  output
 }
