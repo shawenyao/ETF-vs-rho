@@ -57,7 +57,7 @@ plot3 <- plot_efficient_frontier(
   x_range = c(0, 0.44),
   y_range = c(0, 0.25),
   show_tangency_line = FALSE,
-  show_tangency_portfolio = FALSE
+  show_tangency_portfolio = TRUE
 )
 
 
