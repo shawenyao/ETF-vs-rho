@@ -1,6 +1,8 @@
 suppressWarnings(library(tidyverse))
 suppressWarnings(library(beepr))
 
+set.seed(350)
+
 setwd("C:/Users/Wenyao/Desktop/R/ETF-vs-rho")
 source("functions/functions_efficient_frontier.R", echo = FALSE)
 source("functions/functions_save_svg.R", echo = TRUE)

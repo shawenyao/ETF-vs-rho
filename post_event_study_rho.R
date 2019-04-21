@@ -4,8 +4,11 @@ suppressWarnings(library(zoo))
 suppressWarnings(library(rio))
 suppressWarnings(library(beepr))
 
+set.seed(350)
+
 setwd("C:/Users/Wenyao/Desktop/R/ETF-vs-rho/")
 source("functions/functions_save_svg.R", echo = FALSE)
+
 
 #==== input ====
 sp500_daily_return <- import("input/sp500_daily_return.csv")
