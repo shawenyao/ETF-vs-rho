@@ -152,10 +152,18 @@ calculate_efficient_frontier <- function(miu, sigma, rho, min_return, max_return
 #' @param risky_assets a data.frame of the return and volatility of all risky assets
 #' @param rho the correlation matrix of all risky assets
 #' @param risk_free_asset a data.frame of the return and volatility (0) of risk-free asset
+#' @param x_range the range of the x axis
+#' @param y_range the range of the y axis
 #'
 #' @return a ggplot2 object
 #'
-plot_efficient_frontier <- function(risky_assets, rho, risk_free_asset){
+plot_efficient_frontier <- function(
+  risky_assets, 
+  rho, 
+  risk_free_asset,
+  x_range,
+  y_range
+){
   
   # global minimum variance portfolio
   weight_minimum <- calculate_minimum_variance_portfolio(
@@ -228,7 +236,8 @@ plot_efficient_frontier <- function(risky_assets, rho, risk_free_asset){
     # the risk-free rate
     geom_point(data = risk_free_asset, color = "chocolate1", size = 5) +
     geom_point(data = risk_free_asset, color = "white", size = 2) +
-    xlim(0, max(efficient_frontier$volatility)) +
+    xlim(x_range[1], x_range[2]) +
+    ylim(y_range[1], y_range[2]) +
     theme_minimal() +
     theme(
       text = element_text(size = 15),
