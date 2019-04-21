@@ -9,7 +9,7 @@ source("functions/functions_save_svg.R", echo = TRUE)
 
 
 #==== general setup ====
-risky_assets <- tibble(return = c(0.05, 0.15, 0.16), volatility = c(0.20, 0.24, 0.28))
+risky_assets <- tibble(return = c(0.05, 0.15, 0.16), volatility = c(0.20, 0.26, 0.30))
 risky_assets_equilibrium <- tibble(return = c(0.10, 0.127, 0.145), volatility = c(0.20, 0.26, 0.30))
 risk_free_asset <- tibble(return = 0.01, volatility = 0)
 
