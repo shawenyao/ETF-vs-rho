@@ -128,10 +128,14 @@ plot3_pre_post_distribution <- event_study %>%
 
 #==== output ====
 save_svg(plot = plot1_monthly_rho, file_name = "output/event_study1_monthly_rho.svg", width = 5, height = 3)
-save_svg(plot = plot2_monthly_rho_distribution, file_name = "output/event_study2_monthly_rho_distribution.svg", width = 5, height = 9)
-save_svg(plot = plot3_pre_post_distribution, file_name = "output/event_study3_plot3_pre_post_distribution.svg", width = 5, height = 3)
+ggsave("paper/plot/event_study1_monthly_rho.eps", plot = plot1_monthly_rho, width = 10, height = 6, units = "cm")
 
-warnings()
+save_svg(plot = plot2_monthly_rho_distribution, file_name = "output/event_study2_monthly_rho_distribution.svg", width = 5, height = 9)
+
+save_svg(plot = plot3_pre_post_distribution, file_name = "output/event_study3_pre_post_distribution.svg", width = 5, height = 3)
+ggsave("paper/plot/event_study3_pre_post_distribution.eps", plot = plot3_pre_post_distribution, width = 10, height = 6, units = "cm")
 
 # play sound when finished
 beep(sound = 2)
+
+warnings()
