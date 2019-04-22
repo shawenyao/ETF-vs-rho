@@ -63,13 +63,13 @@ plot3 <- plot_efficient_frontier(
 
 #==== output ====
 save_svg(plot = plot1, file_name = "output/efficient_frontier1.svg", width = 5, height = 3)
-ggsave("paper/plot/efficient_frontier1.eps", plot = plot1, width = 10, height = 6, units = "cm")
+ggsave("paper/plot/efficient_frontier1.eps", plot = plot1, width = 12, height = 8, units = "cm")
 
 save_svg(plot = plot2, file_name = "output/efficient_frontier2.svg", width = 5, height = 3)
-ggsave("paper/plot/efficient_frontier2.eps", plot = plot2, width = 10, height = 6, units = "cm")
+ggsave("paper/plot/efficient_frontier2.eps", plot = plot2, width = 12, height = 8, units = "cm")
 
 save_svg(plot = plot3, file_name = "output/efficient_frontier3.svg", width = 5, height = 3)
-ggsave("paper/plot/efficient_frontier3.eps", plot = plot3, width = 10, height = 6, units = "cm")
+ggsave("paper/plot/efficient_frontier3.eps", plot = plot3, width = 12, height = 8, units = "cm")
 
 # play sound when finished
 beep(sound = 2)
