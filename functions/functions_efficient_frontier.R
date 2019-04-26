@@ -156,6 +156,7 @@ calculate_efficient_frontier <- function(miu, sigma, rho, min_return, max_return
 #' @param y_range the range of the y axis
 #' @param show_tangency_line a boolean switch to add tangency line to the plot
 #' @param show_tangency_portfolio a boolean switch to add tangency portfolio to the plot
+#' @param show_rf_portfolio a boolean switch to add tangency portfolio to the plot
 #'
 #' @return a ggplot2 object
 #'
@@ -166,7 +167,8 @@ plot_efficient_frontier <- function(
   x_range,
   y_range,
   show_tangency_line = TRUE,
-  show_tangency_portfolio = TRUE
+  show_tangency_portfolio = TRUE,
+  show_rf_portfolio = TRUE
 ){
   
   # global minimum variance portfolio
@@ -232,18 +234,18 @@ plot_efficient_frontier <- function(
     # the global minimum variance portfolio
     geom_point(data = minimum_portfolio, color = "chartreuse4", size = 5) +
     geom_point(data = minimum_portfolio, color = "white", size = 2) +
-    # the risk-free rate
-    geom_point(data = risk_free_asset, color = "chocolate1", size = 5) +
-    geom_point(data = risk_free_asset, color = "white", size = 2) +
+    # axis range
     xlim(x_range[1], x_range[2]) +
     ylim(y_range[1], y_range[2]) +
+    # axis labels
+    labs(x = "Volatility", y = "Return") +
+    # themes
     theme_minimal() +
     theme(
       text = element_text(size = 15),
       axis.title.x = element_text(margin = margin(t = 15, r = 0, b = 0, l = 0)),
       axis.title.y = element_text(margin = margin(t = 0, r = 15, b = 0, l = 0))
-    ) +
-    labs(x = "Volatility", y = "Return")
+    )
   
   if(isTRUE(show_tangency_line)){
     output <- output + 
@@ -262,6 +264,13 @@ plot_efficient_frontier <- function(
       # the tangency portfolio
       geom_point(data = tangency_portfolio, color = "coral3", size = 5) +
       geom_point(data = tangency_portfolio, color = "white", size = 2)
+  }
+  
+  if(isTRUE(show_rf_portfolio)){
+    output <- output + 
+      # the risk-free asset
+      geom_point(data = risk_free_asset, color = "chocolate1", size = 5) +
+      geom_point(data = risk_free_asset, color = "white", size = 2)
   }
   
   output
