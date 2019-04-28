@@ -155,6 +155,7 @@ calculate_efficient_frontier <- function(miu, sigma, rho, min_return, max_return
 #' @param x_range the range of the x axis
 #' @param y_range the range of the y axis
 #' @param show_tangency_line a boolean switch to add tangency line to the plot
+#' @param show_risky_asset a boolean switch to add risky assets to the plot
 #' @param show_tangency_portfolio a boolean switch to add tangency portfolio to the plot
 #' @param show_rf_portfolio a boolean switch to add tangency portfolio to the plot
 #'
@@ -167,6 +168,7 @@ plot_efficient_frontier <- function(
   x_range,
   y_range,
   show_tangency_line = TRUE,
+  show_risky_asset = TRUE,
   show_tangency_portfolio = TRUE,
   show_rf_portfolio = TRUE
 ){
@@ -203,7 +205,7 @@ plot_efficient_frontier <- function(
     miu = risky_assets$return,
     sigma = risky_assets$volatility,
     rho = rho,
-    min_return = 0.001, 
+    min_return = risk_free_asset$return, 
     max_return = 0.25, 
     step = 0.005
   )
@@ -224,13 +226,10 @@ plot_efficient_frontier <- function(
         risk_free_asset$return
     )
   
-  # return the plot
+  # the plot
   output <- ggplot(efficient_frontier, aes(x = volatility, y = return)) +
     # the efficient frontier
     geom_path(size = 2, linejoin = "round", lineend = "round", color = "gray66") +
-    # the atomic assets
-    geom_point(data = risky_assets, color = "dodgerblue3", size = 5) +
-    geom_point(data = risky_assets, color = "white", size = 2) +
     # the global minimum variance portfolio
     geom_point(data = minimum_portfolio, color = "chartreuse4", size = 5) +
     geom_point(data = minimum_portfolio, color = "white", size = 2) +
@@ -247,9 +246,9 @@ plot_efficient_frontier <- function(
       axis.title.y = element_text(margin = margin(t = 0, r = 15, b = 0, l = 0))
     )
   
+  # the tangency line
   if(isTRUE(show_tangency_line)){
     output <- output + 
-      # the tangency line
       geom_path(
         data = tangency_line, 
         linetype = "dashed", 
@@ -259,16 +258,23 @@ plot_efficient_frontier <- function(
       )
   }
   
+  # the risky assets
+  if(isTRUE(show_risky_asset)){
+    output <- output + 
+      geom_point(data = risky_assets, color = "dodgerblue3", size = 5) +
+      geom_point(data = risky_assets, color = "white", size = 2)
+  }
+  
+  # the tangency portfolio
   if(isTRUE(show_tangency_portfolio)){
     output <- output + 
-      # the tangency portfolio
       geom_point(data = tangency_portfolio, color = "coral3", size = 5) +
       geom_point(data = tangency_portfolio, color = "white", size = 2)
   }
   
+  # the risk-free asset
   if(isTRUE(show_rf_portfolio)){
     output <- output + 
-      # the risk-free asset
       geom_point(data = risk_free_asset, color = "chocolate1", size = 5) +
       geom_point(data = risk_free_asset, color = "white", size = 2)
   }
